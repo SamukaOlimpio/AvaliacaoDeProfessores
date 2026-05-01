@@ -4,12 +4,16 @@ package dm.java10x.AvaliacaoDeProfessores.model;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Materia;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "tb_professor")
-public class ProfessorModel {
+public class ProfessorModel implements UserDetails {
 
     @Column(nullable = false)
     private String nome;
@@ -91,5 +95,40 @@ public class ProfessorModel {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("professor"));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
