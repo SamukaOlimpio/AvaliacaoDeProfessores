@@ -29,12 +29,6 @@ public class AlunoControler {
         return ResponseEntity.ok(aluno);
     }
 
-    @PostMapping
-    public ResponseEntity<AlunoModel> criar(@RequestBody AlunoModel aluno) {
-        AlunoModel alunoCriado = alunoService.create(aluno);
-        return ResponseEntity.status(HttpStatus.CREATED).body(alunoCriado);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<AlunoModel> atualizar(@PathVariable Long id, @RequestBody AlunoModel aluno) {
         aluno.setId(id);
