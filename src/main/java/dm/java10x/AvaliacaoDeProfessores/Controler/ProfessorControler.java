@@ -2,6 +2,7 @@ package dm.java10x.AvaliacaoDeProfessores.Controler;
 
 import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
+import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
 import dm.java10x.AvaliacaoDeProfessores.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/professor")
 public class ProfessorControler {
+    @Autowired
+    private AlunoService alunoService;
 
     @Autowired
     private ProfessorService professorService;
@@ -35,10 +38,15 @@ public class ProfessorControler {
         return ResponseEntity.ok(professor);
     }
 
-    @PostMapping
+    @PostMapping("/criarProfessor")
     public ResponseEntity<ProfessorModel> criar(@RequestBody ProfessorModel professor) {
         ProfessorModel professorCriado = professorService.create(professor);
         return ResponseEntity.status(HttpStatus.CREATED).body(professorCriado);
+    }
+    @PostMapping("/criarAluno")
+    public ResponseEntity<AlunoModel> criar(@RequestBody AlunoModel aluno) {
+        AlunoModel alunoCriado = alunoService.create(aluno);
+        return ResponseEntity.status(HttpStatus.CREATED).body(alunoCriado);
     }
 
     @PutMapping("/{id}")
