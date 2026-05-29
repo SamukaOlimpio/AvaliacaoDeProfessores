@@ -2,7 +2,6 @@ package dm.java10x.AvaliacaoDeProfessores.model;
 
 
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Materia;
-import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -70,7 +69,7 @@ public class ProfessorModel implements UserDetails {
     }
 
     public void setTurma(List<String> turma) {
-        this.turma = turma;
+        this.turma.addAll(turma);
     }
 
     public long getId() {
