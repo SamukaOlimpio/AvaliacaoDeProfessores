@@ -1,5 +1,6 @@
 package dm.java10x.AvaliacaoDeProfessores.service;
 
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import dm.java10x.AvaliacaoDeProfessores.model.AulaModel;
 import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
@@ -7,6 +8,10 @@ import dm.java10x.AvaliacaoDeProfessores.repository.AvaliacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AvaliacaoService {
@@ -45,4 +50,13 @@ public class AvaliacaoService {
         obj = this.avaliacaoRepository.save(obj);
         return obj;
     }
+
+    public Boolean foiAvaliadoNessaSemana(List<AvaliacaoModel> avaliacaoModels){
+        for(AvaliacaoModel avaliacao: avaliacaoModels){
+            if(avaliacao.getAulaModel().getDataDeCriacao().isAfter(LocalDateTime.now().minusDays(6))){
+                return true;
+            }
+        } return false;
+    }
+
 }

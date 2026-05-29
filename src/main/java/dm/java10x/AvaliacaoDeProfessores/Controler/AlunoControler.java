@@ -7,6 +7,7 @@ import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
 import dm.java10x.AvaliacaoDeProfessores.service.AvaliacaoService;
+import dm.java10x.AvaliacaoDeProfessores.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,9 @@ public class AlunoControler {
     private AlunoService alunoService;
 
     @Autowired
+    private ProfessorService professorService;
+
+    @Autowired
     private AvaliacaoService avaliacaoService;
 
     @GetMapping
@@ -34,6 +38,14 @@ public class AlunoControler {
     public ResponseEntity<AlunoModel> buscarPorId(@PathVariable Long id) {
         AlunoModel aluno = alunoService.findById(id);
         return ResponseEntity.ok(aluno);
+    }
+
+    @GetMapping("/aulas/{id}")
+    public ResponseEntity<List<ProfessorModel>> avaliarAulas(@PathVariable Long id){
+        AlunoModel aluno = alunoService.findById(id);
+        List<ProfessorModel> professoresQueEnsinamMesmaTurma = professorService.filtrarPorTurma(aluno.getTurma());
+        List<ProfessorModel> professoresFiltrados = professorService.filtrarProfessoresNaoAvaliadosEstaSemana(professoresQueEnsinamMesmaTurma, aluno);
+        return ResponseEntity.ok(professoresFiltrados);
     }
 
     @PutMapping("/{id}")

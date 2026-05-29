@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TurmaRepository extends JpaRepository<TurmaModel, Long> {
 
-    List<Integer> findId_professorByTurma(Turma turma);
+    List<Long> findId_professorByTurma(Turma turma);
 }

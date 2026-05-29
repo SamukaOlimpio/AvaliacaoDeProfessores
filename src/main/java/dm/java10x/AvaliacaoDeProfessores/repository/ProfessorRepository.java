@@ -18,8 +18,9 @@ import java.util.Optional;
 public interface ProfessorRepository extends JpaRepository<ProfessorModel, Long> {
     UserDetails findByEmail(String email);
 
-    ProfessorModel findProfessorModelByEmail(String email);
+    ProfessorModel findProfessorModelById(Long id);
 
+    ProfessorModel findProfessorModelByEmail(String email);
 }
 
 

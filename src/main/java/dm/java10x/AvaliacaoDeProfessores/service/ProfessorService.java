@@ -1,6 +1,7 @@
 package dm.java10x.AvaliacaoDeProfessores.service;
 
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
+import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.model.TurmaModel;
@@ -19,6 +20,9 @@ import java.util.Optional;
 
 @Service
 public class ProfessorService {
+
+    @Autowired
+    private AvaliacaoService avaliacaoService;
 
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
@@ -90,6 +94,26 @@ public class ProfessorService {
         }
         if (cont > 0){return soma/cont;}
         else{ return 0;}
+    }
+
+    public List<ProfessorModel> filtrarPorTurma(Turma turma){
+        List<Long> idsDosProfessores = turmaRepository.findId_professorByTurma(turma);
+        List<ProfessorModel> listaDeProfessores = List.of();
+        for (Long id: idsDosProfessores){
+            listaDeProfessores.add(professorRepository.findProfessorModelById(id));
+        }
+        return listaDeProfessores;
+    }
+
+    public List<ProfessorModel> filtrarProfessoresNaoAvaliadosEstaSemana(List<ProfessorModel> professores, AlunoModel aluno){
+        List<ProfessorModel> professoresFiltrados = List.of();
+        for (ProfessorModel professor: professores){
+            List<AvaliacaoModel> avaliacoes = avaliacaoRepository.findByProfessorModelAndAlunoModel(professor, aluno);
+            if (!avaliacaoService.foiAvaliadoNessaSemana(avaliacoes)){
+                professoresFiltrados.add(professor);
+            }
+        }
+        return  professoresFiltrados;
     }
 
 }
