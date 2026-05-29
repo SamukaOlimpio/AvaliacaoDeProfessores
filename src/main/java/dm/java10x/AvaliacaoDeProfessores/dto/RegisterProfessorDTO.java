@@ -1,6 +1,9 @@
 package dm.java10x.AvaliacaoDeProfessores.dto;
 
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Materia;
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
+import dm.java10x.AvaliacaoDeProfessores.model.TurmaModel;
+
 import java.util.List;
 
 public record RegisterProfessorDTO(
@@ -8,6 +11,6 @@ public record RegisterProfessorDTO(
         Materia materia,
         String senha,
         String email,
-        List<String> turmas
+        List<Turma> turmas
 ) {
 }

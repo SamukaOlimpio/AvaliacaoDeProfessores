@@ -1,12 +1,16 @@
 package dm.java10x.AvaliacaoDeProfessores.service;
 
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
+import dm.java10x.AvaliacaoDeProfessores.model.TurmaModel;
 import dm.java10x.AvaliacaoDeProfessores.repository.AulaRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.AvaliacaoRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.ProfessorRepository;
+import dm.java10x.AvaliacaoDeProfessores.repository.TurmaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +27,7 @@ public class ProfessorService {
     private ProfessorRepository professorRepository;
 
     @Autowired
-    private AulaRepository aulaRepository;
+    private TurmaRepository turmaRepository;
 
     public List<ProfessorModel> findAll(){
         return professorRepository.findAll();
@@ -36,9 +40,21 @@ public class ProfessorService {
         ));
     }
 
+    public UserDetails findByEmail(String email){
+        return professorRepository.findByEmail(email);
+    }
+
+    public ProfessorModel findProfessorModelByEmail(String email){
+        return professorRepository.findProfessorModelByEmail(email);
+    }
+
     @Transactional
-    public ProfessorModel create(ProfessorModel obj){
+    public ProfessorModel create(ProfessorModel obj, List<Turma> turmas){
         obj = this.professorRepository.save(obj);
+        for (Turma t: turmas){
+            TurmaModel novaTurma = new TurmaModel(t, obj);
+            turmaRepository.save(novaTurma);
+        }
         return obj;
     }
 
@@ -47,7 +63,6 @@ public class ProfessorService {
         ProfessorModel newProfessor = findById(obj.getId());
         if(Objects.nonNull(obj.getSenha())){newProfessor.setSenha(obj.getSenha());}
         if (Objects.nonNull(obj.getEmail())){newProfessor.setEmail(obj.getEmail());}
-        if (Objects.nonNull(obj.getTurma())){newProfessor.setTurma(obj.getTurma());}
         if (Objects.nonNull(obj.getMateria())){newProfessor.setMateria(obj.getMateria());}
         if (Objects.nonNull(obj.getNome())){newProfessor.setNome(obj.getNome());}
         return this.professorRepository.save(newProfessor);
@@ -76,4 +91,5 @@ public class ProfessorService {
         if (cont > 0){return soma/cont;}
         else{ return 0;}
     }
+
 }

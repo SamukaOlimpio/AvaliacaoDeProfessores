@@ -4,12 +4,15 @@ package dm.java10x.AvaliacaoDeProfessores.Controler;
 
 
 import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
+import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
+import dm.java10x.AvaliacaoDeProfessores.service.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/aluno")
@@ -17,6 +20,9 @@ public class AlunoControler {
 
     @Autowired
     private AlunoService alunoService;
+
+    @Autowired
+    private AvaliacaoService avaliacaoService;
 
     @GetMapping
     public ResponseEntity<List<AlunoModel>> listarTodos() {

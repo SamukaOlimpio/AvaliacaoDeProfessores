@@ -38,11 +38,6 @@ public class ProfessorControler {
         return ResponseEntity.ok(professor);
     }
 
-    @PostMapping("/criarProfessor")
-    public ResponseEntity<ProfessorModel> criar(@RequestBody ProfessorModel professor) {
-        ProfessorModel professorCriado = professorService.create(professor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(professorCriado);
-    }
     @PostMapping("/criarAluno")
     public ResponseEntity<AlunoModel> criar(@RequestBody AlunoModel aluno) {
         AlunoModel alunoCriado = alunoService.create(aluno);
