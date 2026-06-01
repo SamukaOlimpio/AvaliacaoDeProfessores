@@ -5,7 +5,6 @@ import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.model.TurmaModel;
-import dm.java10x.AvaliacaoDeProfessores.repository.AulaRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.AvaliacaoRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.ProfessorRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.TurmaRepository;
@@ -77,6 +76,7 @@ public class ProfessorService {
         ProfessorModel professor = findById(id);
         try {
             this.avaliacaoRepository.deleteByProfessorModel(professor);
+            this.turmaRepository.deleteByProfessorModel(professor);
             this.professorRepository.deleteById(id);
         } catch (Exception e){
             throw new RuntimeException("Não é possivel excluir pois há entidades relacionadas");

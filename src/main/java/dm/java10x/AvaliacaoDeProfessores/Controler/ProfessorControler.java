@@ -3,6 +3,7 @@ package dm.java10x.AvaliacaoDeProfessores.Controler;
 import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
+import dm.java10x.AvaliacaoDeProfessores.service.AulaService;
 import dm.java10x.AvaliacaoDeProfessores.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/professor")
 public class ProfessorControler {
+
+    @Autowired
+    private AulaService aulaService;
+
     @Autowired
     private AlunoService alunoService;
 
@@ -28,6 +33,7 @@ public class ProfessorControler {
 
     @GetMapping("/media/{id}")
     public ResponseEntity<Integer> buscarMediaPorId(@PathVariable long id){
+        aulaService.deletarAulasVencidas();
         Integer media = professorService.mediaDoProfessorPorId(id);
         return ResponseEntity.ok(media);
     }
