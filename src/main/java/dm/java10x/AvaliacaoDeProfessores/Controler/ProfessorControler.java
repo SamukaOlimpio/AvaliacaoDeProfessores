@@ -25,6 +25,16 @@ public class ProfessorControler {
     @Autowired
     private ProfessorService professorService;
 
+
+    @GetMapping("/buscar/{email}")
+    public ResponseEntity<ProfessorModel> buscarPorEmail(@PathVariable String email) {
+        ProfessorModel professor = professorService.findProfessorModelByEmail(email);
+        if (professor != null) {
+            return ResponseEntity.ok(professor);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<ProfessorModel>> listarTodos() {
         List<ProfessorModel> professor = professorService.findAll();
@@ -32,7 +42,7 @@ public class ProfessorControler {
     }
 
     @GetMapping("/media/{id}")
-    public ResponseEntity<Integer> buscarMediaPorId(@PathVariable long id){
+    public ResponseEntity<Integer> buscarMediaPorId(@PathVariable Long id){
         aulaService.deletarAulasVencidas();
         Integer media = professorService.mediaDoProfessorPorId(id);
         return ResponseEntity.ok(media);
