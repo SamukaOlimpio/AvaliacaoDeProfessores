@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Sanchez:ital@0;1&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Lexend", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(../img/imagenDeFundo.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    width: 550px;
+    padding: 30px 40px;
+}
+
+form {
+    background-color: #EEEEE4;
+    height: 480px;
+    padding: 30px 35px;
+    border-radius: 50px;
+    box-shadow: 0 5px 0 -1px;
+}
+
+.input-box {
+    width: 100%;
+    height: 45px;
+    margin: 30px 0;
+    background-color: #E9DBCE;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background-color: #E9DBCE;
+    border: 2px solid #CCC7C1;
+    padding: 7px;
+    color: #4D3C2C;
+    font-size: 14px;
+    outline: none;
+}
+
+select {
+    width: 84%;
+    height: 100%;
+    border: none;
+    background-color: #E9DBCE;
+    color: #4D3C2C;
+}
+
+fieldset {
+    height: 100%;
+    border: 2px solid #CCC7C1;
+}
+
+label {
+    color: #4D3C2C;
+    font-size: 14px;
+    padding-left: 6px;
+}
+
+h1 {
+    color: #4D3C2C;
+    text-align: center;
+    font-size: 40px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #4D3C2C;
+    color: #ffffff;
+    border: 2px solid #251d16;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #271e16;
+    border: 2px solid #000000;
+    color: #ffffff;
+    transition: 0.3s;
+}

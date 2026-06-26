@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Sanchez:ital@0;1&display=swap');
+
+* {
+    font-family: "Lexend", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+  margin: 0;
+  height: 100vh; /* Altura total da tela */
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  background-image: url('../img/fundo.jpg');
+  background-size: cover;
+}
+
+.container{
+    display:flex;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-color: blue;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#container{
+    width: 500px;
+    height: 200px;
+    display: absolute;
+}
+
+.avaliacao{
+    display: flex;
+    width: 90%;
+    padding: 20px 20px 20px 10px;
+    margin: 10px;
+}
+
+p{
+    padding: 0px 5px 0px 0px;
+    color: white;
+}
+
+h1{
+    text-align: center;
+    justify-content: center;
+}
+
+button{
+    background-color: transparent;
+    border-color: blue;
+    border-width: 2px;
+    border-radius: 10px;
+    border-style: solid;
+    color: blue;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#button{
+    text-align: center;
+    justify-content: center;
+}
+
+#aula{
+    background-color: red;
+    border-color: red;
+    border-width: 2px;
+    border-radius: 10px;
+    border-style: solid;
+}
+
+#nota{
+    background-color: yellow;
+    border-color: yellow;
+    border-width: 2px;
+    border-radius: 10px;
+    border-style: solid;
+}

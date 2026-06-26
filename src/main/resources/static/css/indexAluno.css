@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Sanchez:ital@0;1&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Lexend", sans-serif;
+}
+body{
+    display: flex;
+}
+
+#professores{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    width: 20vw;
+    height: 100vh;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    background-color: aliceblue;
+}
+#AvaliarAula {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    height: 100vh;
+    left: 50%;
+    background-image: url('../img/fundo.jpg');
+    background-position: 20px;
+    background-size: contain;
+}
+
+#nota{
+    align-items: center;
+    justify-content: center;
+    margin: 100px;
+}
+
+#comentario{
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+.nota{
+    display: flex;
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+    border-radius: 50px;
+    border-style: solid;
+    padding: 10px 20px;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 1s ease;
+}
+
+.comentario{
+    display: flex;
+    width: 100px;
+    height: 50px;
+    border-width: 2px;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px 20px;
+    margin: 5px;
+    transition: background-color 1s ease;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.opcoes{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.professor{
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 1s ease;
+}
+
+#deslogar{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+
+h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button{
+    cursor: pointer;
+    color: black;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#nota-1{
+    background-color: red;
+}
+#nota-2{
+    background-color: green;
+}
+#nota-3{
+    background-color: blue;
+}
+#nota-4{
+    background-color: yellow;
+}
+#nota-5{
+    background-color: purple;
+}
+#nota-6{
+    background-color: orange;
+}
+#nota-7{
+    background-color: pink;
+}
+#nota-8{
+    background-color: brown;
+}
+#nota-9{
+    background-color: gray;
+}
+#nota-10{
+    background-color:burlywood;
+}
+
+#comentario-1{
+    background-color: red;
+}
+#comentario-2{
+    background-color: green;
+}
+#comentario-3{
+    background-color: blue;
+}
+#comentario-4{
+    background-color: yellow;
+}
+#comentario-5{
+    background-color: purple;
+}
+
