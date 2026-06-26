@@ -1,8 +1,10 @@
 package dm.java10x.AvaliacaoDeProfessores.Controler;
 
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Adjetivo;
 import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
+import dm.java10x.AvaliacaoDeProfessores.service.AulaService;
 import dm.java10x.AvaliacaoDeProfessores.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,11 +16,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/professor")
 public class ProfessorControler {
+
+    @Autowired
+    private AulaService aulaService;
+
     @Autowired
     private AlunoService alunoService;
 
     @Autowired
     private ProfessorService professorService;
+
+
+    @GetMapping("/buscar/{email}")
+    public ResponseEntity<ProfessorModel> buscarPorEmail(@PathVariable String email) {
+        ProfessorModel professor = professorService.findProfessorModelByEmail(email);
+        if (professor != null) {
+            return ResponseEntity.ok(professor);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @GetMapping
     public ResponseEntity<List<ProfessorModel>> listarTodos() {
@@ -27,9 +43,17 @@ public class ProfessorControler {
     }
 
     @GetMapping("/media/{id}")
-    public ResponseEntity<Integer> buscarMediaPorId(@PathVariable long id){
+    public ResponseEntity<Integer> buscarMediaPorId(@PathVariable Long id){
+        aulaService.deletarAulasVencidas();
         Integer media = professorService.mediaDoProfessorPorId(id);
         return ResponseEntity.ok(media);
+    }
+
+    @GetMapping("/adjetivo/{id}")
+    public ResponseEntity<Adjetivo> buscarAdjetivoPorId(@PathVariable Long id){
+        aulaService.deletarAulasVencidas();
+        Adjetivo adjetivo = professorService.modaDosAdjetivos(id);
+        return ResponseEntity.ok(adjetivo);
     }
 
     @GetMapping("/{id}")
@@ -38,11 +62,6 @@ public class ProfessorControler {
         return ResponseEntity.ok(professor);
     }
 
-    @PostMapping("/criarProfessor")
-    public ResponseEntity<ProfessorModel> criar(@RequestBody ProfessorModel professor) {
-        ProfessorModel professorCriado = professorService.create(professor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(professorCriado);
-    }
     @PostMapping("/criarAluno")
     public ResponseEntity<AlunoModel> criar(@RequestBody AlunoModel aluno) {
         AlunoModel alunoCriado = alunoService.create(aluno);

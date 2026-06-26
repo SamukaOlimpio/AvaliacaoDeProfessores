@@ -21,4 +21,7 @@ public interface AvaliacaoRepository extends JpaRepository<AvaliacaoModel, Long>
     void deleteByAlunoModel(AlunoModel alunoModel);
 
     List<AvaliacaoModel> findByProfessorModel(ProfessorModel professorModel);
+
+    List<AvaliacaoModel> findByProfessorModelAndAlunoModel(ProfessorModel professorModel, AlunoModel alunoModel);
 }
+

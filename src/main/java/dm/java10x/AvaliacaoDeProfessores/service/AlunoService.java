@@ -5,6 +5,7 @@ import dm.java10x.AvaliacaoDeProfessores.repository.AlunoRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.AvaliacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,14 @@ public class AlunoService {
         return alunoModel.orElseThrow(() -> new RuntimeException(
                 "Aluno não encontrado"
         ));
+    }
+
+    public UserDetails findByEmail(String email){
+        return alunoRepository.findByEmail(email);
+    }
+
+    public AlunoModel findAlunoModelByEmail(String email){
+        return alunoRepository.findAlunoModelByEmail(email);
     }
 
     @Transactional

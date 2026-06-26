@@ -2,7 +2,6 @@ package dm.java10x.AvaliacaoDeProfessores.model;
 
 
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Materia;
-import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,22 +30,14 @@ public class ProfessorModel implements UserDetails {
     @Column(name ="senha" ,nullable = false)
     private String senha;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "professor_turmas",
-            joinColumns = @JoinColumn(name = "professor_id")
-    )
-    @Column(name = "turma", nullable = false)
-    private List<String> turma;
-
     public ProfessorModel() {
     }
 
-    public ProfessorModel(String nome, Materia materia, String senha, List<String> turma) {
+    public ProfessorModel(String nome, Materia materia, String senha, String email) {
         this.nome = nome;
         this.materia = materia;
         this.senha = senha;
-        this.turma = turma;
+        this.email = email;
     }
 
     public Materia getMateria() {
@@ -63,14 +54,6 @@ public class ProfessorModel implements UserDetails {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public List<String> getTurma() {
-        return turma;
-    }
-
-    public void setTurma(List<String> turma) {
-        this.turma = turma;
     }
 
     public long getId() {

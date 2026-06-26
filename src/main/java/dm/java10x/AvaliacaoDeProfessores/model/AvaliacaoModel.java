@@ -18,7 +18,7 @@ public class AvaliacaoModel {
     @JoinColumn(name = "alunoId")
     private AlunoModel alunoModel;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "aulaId")
     private AulaModel aulaModel;
 

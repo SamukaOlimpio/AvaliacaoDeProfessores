@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AlunoRepository  extends JpaRepository<AlunoModel, Long> {
     UserDetails findByEmail(String email);
+
+    AlunoModel findAlunoModelByEmail(String email);
 }
