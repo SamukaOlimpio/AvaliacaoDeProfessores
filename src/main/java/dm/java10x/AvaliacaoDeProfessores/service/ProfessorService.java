@@ -1,5 +1,6 @@
 package dm.java10x.AvaliacaoDeProfessores.service;
 
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Adjetivo;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProfessorService {
@@ -96,17 +95,45 @@ public class ProfessorService {
         else{ return 0;}
     }
 
+    public Adjetivo modaDosAdjetivos(long id){
+        ProfessorModel professor = findById(id);
+        Adjetivo[] adjetivos = {Adjetivo.OTIMO, Adjetivo.BOM, Adjetivo.MEDIO, Adjetivo.RUIM };
+        Integer[] quantAdjetivos = {0, 0, 0, 0};
+        List<AvaliacaoModel> avaliacoes = avaliacaoRepository.findByProfessorModel(professor);
+        for (AvaliacaoModel avaliacao: avaliacoes){
+            if (avaliacao.getAulaModel().getAdjetivo().equals(adjetivos[0])){
+                quantAdjetivos[0] ++;
+            }
+            else if (avaliacao.getAulaModel().getAdjetivo().equals(adjetivos[1])){
+                quantAdjetivos[1] ++;
+            }
+            else if (avaliacao.getAulaModel().getAdjetivo().equals(adjetivos[2])){
+                quantAdjetivos[2] ++;
+            }
+            else {quantAdjetivos[3] ++;}
+        }
+        int max = 0;
+        int adj = 0;
+        for (int i = 0; i < 4; i++) {
+            if (quantAdjetivos[i] > max){
+                max = quantAdjetivos[i];
+                adj = i;
+            }
+        }
+        return adjetivos[adj];
+    }
     public List<ProfessorModel> filtrarPorTurma(Turma turma){
-        List<Long> idsDosProfessores = turmaRepository.findId_professorByTurma(turma);
-        List<ProfessorModel> listaDeProfessores = List.of();
-        for (Long id: idsDosProfessores){
-            listaDeProfessores.add(professorRepository.findProfessorModelById(id));
+        List<TurmaModel> turmas = turmaRepository.findTurmaModelByTurma(turma);
+        List<ProfessorModel> listaDeProfessores = new ArrayList<>();
+        for (TurmaModel turminha: turmas){
+            if (! listaDeProfessores.contains(turminha.getProfessorModel())){
+                listaDeProfessores.add(turminha.getProfessorModel());}
         }
         return listaDeProfessores;
     }
 
     public List<ProfessorModel> filtrarProfessoresNaoAvaliadosEstaSemana(List<ProfessorModel> professores, AlunoModel aluno){
-        List<ProfessorModel> professoresFiltrados = List.of();
+        List<ProfessorModel> professoresFiltrados = new ArrayList<>();
         for (ProfessorModel professor: professores){
             List<AvaliacaoModel> avaliacoes = avaliacaoRepository.findByProfessorModelAndAlunoModel(professor, aluno);
             if (!avaliacaoService.foiAvaliadoNessaSemana(avaliacoes)){

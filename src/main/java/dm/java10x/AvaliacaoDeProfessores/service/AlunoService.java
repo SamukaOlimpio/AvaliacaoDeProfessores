@@ -37,6 +37,10 @@ public class AlunoService {
         return alunoRepository.findByEmail(email);
     }
 
+    public AlunoModel findAlunoModelByEmail(String email){
+        return alunoRepository.findAlunoModelByEmail(email);
+    }
+
     @Transactional
     public AlunoModel create(AlunoModel obj){
         obj = this.alunoRepository.save(obj);
