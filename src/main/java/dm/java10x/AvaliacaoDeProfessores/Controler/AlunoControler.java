@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/aluno")
@@ -47,21 +46,21 @@ public class AlunoControler {
         return ResponseEntity.ok(aluno);
     }
 
-    @GetMapping("/aulas/{id}")
-    public ResponseEntity<List<ProfessorModel>> avaliarAulas(@PathVariable Long id){
-        AlunoModel aluno = alunoService.findById(id);
+    @GetMapping("/aulas/{email}")
+    public ResponseEntity<List<ProfessorModel>> avaliarAulas(@PathVariable String email){
+        AlunoModel aluno = alunoService.findAlunoModelByEmail(email);
         List<ProfessorModel> professoresQueEnsinamMesmaTurma = professorService.filtrarPorTurma(aluno.getTurma());
         List<ProfessorModel> professoresFiltrados = professorService.filtrarProfessoresNaoAvaliadosEstaSemana(professoresQueEnsinamMesmaTurma, aluno);
         return ResponseEntity.ok(professoresFiltrados);
     }
     @PostMapping("/aula")
     public ResponseEntity<AulaModel> avaliarAula(@RequestBody AvaliacaoDaAulaDTO aulaDTO){
-        AlunoModel aluno = alunoService.findById(aulaDTO.id_aluno());
+        AlunoModel aluno = alunoService.findAlunoModelByEmail(aulaDTO.email());
         AulaModel aula = new AulaModel();
         aula.setAdjetivo(aulaDTO.adjetivo());
         aula.setNota(aulaDTO.nota());
         AulaModel obj = this.aulaService.create(aula);
-        AvaliacaoModel avaliacao = this.avaliacaoService.creat(aulaDTO.id_aluno(), aulaDTO.id_professor(), obj.getId());
+        AvaliacaoModel avaliacao = this.avaliacaoService.creat(aluno.getId(), aulaDTO.id_professor(), obj.getId());
         return ResponseEntity.ok(obj);
     }
 

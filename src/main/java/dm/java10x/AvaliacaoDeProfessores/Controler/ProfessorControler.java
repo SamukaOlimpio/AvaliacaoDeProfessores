@@ -1,5 +1,6 @@
 package dm.java10x.AvaliacaoDeProfessores.Controler;
 
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Adjetivo;
 import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
@@ -46,6 +47,13 @@ public class ProfessorControler {
         aulaService.deletarAulasVencidas();
         Integer media = professorService.mediaDoProfessorPorId(id);
         return ResponseEntity.ok(media);
+    }
+
+    @GetMapping("/adjetivo/{id}")
+    public ResponseEntity<Adjetivo> buscarAdjetivoPorId(@PathVariable Long id){
+        aulaService.deletarAulasVencidas();
+        Adjetivo adjetivo = professorService.modaDosAdjetivos(id);
+        return ResponseEntity.ok(adjetivo);
     }
 
     @GetMapping("/{id}")
