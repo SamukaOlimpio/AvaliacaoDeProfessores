@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface TurmaRepository extends JpaRepository<TurmaModel, Long> {
 
-    List<Long> findId_professorByTurma(Turma turma);
+    List<TurmaModel> findTurmaModelByTurma(Turma turma);
+
+    List<ProfessorModel> findProfessorModelByTurma(Turma turma);
 
     void deleteByProfessorModel(ProfessorModel professor);
 }
