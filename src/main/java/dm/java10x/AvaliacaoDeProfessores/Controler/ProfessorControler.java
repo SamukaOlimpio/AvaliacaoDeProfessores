@@ -61,6 +61,8 @@ public class ProfessorControler {
         ProfessorModel professor = professorService.findById(id);
         return ResponseEntity.ok(professor);
     }
+    @PostMapping("/criarAluno")
+    public ResponseEntity<?> uplodingImags
 
     @PostMapping("/criarAluno")
     public ResponseEntity<AlunoModel> criar(@RequestBody AlunoModel aluno) {

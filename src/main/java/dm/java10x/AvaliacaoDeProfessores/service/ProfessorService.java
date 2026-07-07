@@ -7,6 +7,7 @@ import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
 import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
 import dm.java10x.AvaliacaoDeProfessores.model.TurmaModel;
 import dm.java10x.AvaliacaoDeProfessores.repository.AvaliacaoRepository;
+import dm.java10x.AvaliacaoDeProfessores.repository.ImageRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.ProfessorRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.TurmaRepository;
 import jakarta.transaction.Transactional;
@@ -30,6 +31,9 @@ public class ProfessorService {
 
     @Autowired
     private TurmaRepository turmaRepository;
+
+    @Autowired
+    private ImageRepository image;
 
     public List<ProfessorModel> findAll(){
         return professorRepository.findAll();
