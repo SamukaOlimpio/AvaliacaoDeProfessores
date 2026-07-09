@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -61,8 +62,6 @@ public class ProfessorControler {
         ProfessorModel professor = professorService.findById(id);
         return ResponseEntity.ok(professor);
     }
-    @PostMapping("/criarAluno")
-    public ResponseEntity<?> uplodingImags
 
     @PostMapping("/criarAluno")
     public ResponseEntity<AlunoModel> criar(@RequestBody AlunoModel aluno) {
