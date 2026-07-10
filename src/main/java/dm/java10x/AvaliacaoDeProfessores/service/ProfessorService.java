@@ -2,18 +2,18 @@ package dm.java10x.AvaliacaoDeProfessores.service;
 
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Adjetivo;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
-import dm.java10x.AvaliacaoDeProfessores.model.AlunoModel;
-import dm.java10x.AvaliacaoDeProfessores.model.AvaliacaoModel;
-import dm.java10x.AvaliacaoDeProfessores.model.ProfessorModel;
-import dm.java10x.AvaliacaoDeProfessores.model.TurmaModel;
+import dm.java10x.AvaliacaoDeProfessores.model.*;
 import dm.java10x.AvaliacaoDeProfessores.repository.AvaliacaoRepository;
+import dm.java10x.AvaliacaoDeProfessores.repository.ImageRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.ProfessorRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.TurmaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -30,6 +30,9 @@ public class ProfessorService {
 
     @Autowired
     private TurmaRepository turmaRepository;
+
+    @Autowired
+    private ImageRepository image;
 
     public List<ProfessorModel> findAll(){
         return professorRepository.findAll();
@@ -51,11 +54,16 @@ public class ProfessorService {
     }
 
     @Transactional
-    public ProfessorModel create(ProfessorModel obj, List<Turma> turmas){
+    public ProfessorModel create(ProfessorModel obj, List<Turma> turmas, MultipartFile file){
         obj = this.professorRepository.save(obj);
         for (Turma t: turmas){
             TurmaModel novaTurma = new TurmaModel(t, obj);
             turmaRepository.save(novaTurma);
+        }
+        try {
+            uploadImage(file, obj);
+        } catch (IOException e) {
+            throw new RuntimeException("Não foi possivel salvar  imagem", e);
         }
         return obj;
     }
@@ -97,7 +105,7 @@ public class ProfessorService {
 
     public Adjetivo modaDosAdjetivos(long id){
         ProfessorModel professor = findById(id);
-        Adjetivo[] adjetivos = {Adjetivo.OTIMO, Adjetivo.BOM, Adjetivo.MEDIO, Adjetivo.RUIM };
+        Adjetivo[] adjetivos = {Adjetivo.OTIMO, Adjetivo.BOM, Adjetivo.MEDIO, Adjetivo.RUIM};
         Integer[] quantAdjetivos = {0, 0, 0, 0};
         List<AvaliacaoModel> avaliacoes = avaliacaoRepository.findByProfessorModel(professor);
         for (AvaliacaoModel avaliacao: avaliacoes){
@@ -142,5 +150,19 @@ public class ProfessorService {
         }
         return  professoresFiltrados;
     }
+    @Transactional
+    public Image uploadImage(MultipartFile file, ProfessorModel professor) throws IOException {
+        Image imageData = new Image(professor.getNome(), file.getContentType(), file.getBytes(), professor);
+        return imageData;
+    }
 
+    public Image downloadImage(Long id) {
+        Optional<Image> imagem = this.image.findById(id);
+        if (imagem.isPresent()) {
+            return imagem.get();
+        }
+        else {
+            return imagem.orElseThrow(() -> new RuntimeException("Imagem não encontrada"));
+        }
+    }
 }

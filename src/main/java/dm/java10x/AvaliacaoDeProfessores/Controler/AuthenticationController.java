@@ -131,7 +131,7 @@ public class AuthenticationController {
                     data.materia(),
                     senhaCripto,
                     data.email());
-            professorService.create(professor, data.turmas());
+            professorService.create(professor, data.turmas(), data.file());
             ProfessorModel professorSalvo = professorService.findProfessorModelByEmail(data.email());
             return ResponseEntity.status(201).body("Professor registrado com sucesso!");
         } catch (Exception e) {
