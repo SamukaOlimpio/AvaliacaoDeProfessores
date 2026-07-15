@@ -1,6 +1,7 @@
 package dm.java10x.AvaliacaoDeProfessores.Controler;
 
 import dm.java10x.AvaliacaoDeProfessores.dto.*;
+import dm.java10x.AvaliacaoDeProfessores.enumeradores.Materia;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import dm.java10x.AvaliacaoDeProfessores.infra.security.TokenService;
 import dm.java10x.AvaliacaoDeProfessores.model.*;
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
