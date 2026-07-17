@@ -1,12 +1,8 @@
 package dm.java10x.AvaliacaoDeProfessores.Controler;
 
 import dm.java10x.AvaliacaoDeProfessores.dto.*;
-import dm.java10x.AvaliacaoDeProfessores.enumeradores.Materia;
-import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import dm.java10x.AvaliacaoDeProfessores.infra.security.TokenService;
 import dm.java10x.AvaliacaoDeProfessores.model.*;
-import dm.java10x.AvaliacaoDeProfessores.repository.AlunoRepository;
-import dm.java10x.AvaliacaoDeProfessores.repository.ProfessorRepository;
 import dm.java10x.AvaliacaoDeProfessores.repository.TurmaRepository;
 import dm.java10x.AvaliacaoDeProfessores.service.AlunoService;
 import dm.java10x.AvaliacaoDeProfessores.service.ProfessorService;
@@ -104,6 +100,10 @@ public class AuthenticationController {
                 return ResponseEntity.badRequest().body("Email já cadastrado como professor. Use outro email.");
             }
 
+            if(! data.email().contains("@")){
+                return ResponseEntity.badRequest().build();
+            }
+
             String senhaCripto = new BCryptPasswordEncoder().encode(data.senha());
             AlunoModel aluno = new AlunoModel(data.nome(), data.turma(), senhaCripto, data.email());
             alunoService.create(aluno);
@@ -117,14 +117,16 @@ public class AuthenticationController {
     @PostMapping("/register/professor")
     public ResponseEntity registerProfessor(@RequestBody RegisterProfessorDTO data){
         try {
-            // Verifica se email já existe como professor
             if(professorService.findByEmail(data.email()) != null) {
                 return ResponseEntity.badRequest().body("Email já cadastrado como professor");
             }
 
-            // Verifica se email já existe como aluno (opcional - para evitar conflito)
             if(alunoService.findByEmail(data.email()) != null) {
                 return ResponseEntity.badRequest().body("Email já cadastrado como aluno. Use outro email.");
+            }
+
+            if (! data.email().contains("@")){
+                return ResponseEntity.badRequest().body("Email invalido");
             }
 
             String senhaCripto = new BCryptPasswordEncoder().encode(data.senha());
