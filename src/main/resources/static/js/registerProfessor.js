@@ -126,3 +126,9 @@ function errorInput(input, message) {
 
     formItem.className = "input-box-error";
 }
+
+function allCheckFunctions() {
+    checkInputUsername();
+    checkInputEmail();
+    checkInputPassword();
+}
