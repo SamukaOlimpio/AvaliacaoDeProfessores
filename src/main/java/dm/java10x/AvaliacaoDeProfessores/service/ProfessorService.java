@@ -1,5 +1,6 @@
 package dm.java10x.AvaliacaoDeProfessores.service;
 
+import dm.java10x.AvaliacaoDeProfessores.dto.ProfessorUpdateDTO;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Adjetivo;
 import dm.java10x.AvaliacaoDeProfessores.enumeradores.Turma;
 import dm.java10x.AvaliacaoDeProfessores.model.*;
@@ -60,21 +61,22 @@ public class ProfessorService {
             TurmaModel novaTurma = new TurmaModel(t, obj);
             turmaRepository.save(novaTurma);
         }
-        try {
-            uploadImage(file, obj);
-        } catch (IOException e) {
-            throw new RuntimeException("Não foi possivel salvar  imagem", e);
-        }
         return obj;
     }
 
     @Transactional
-    public ProfessorModel update(ProfessorModel obj){
-        ProfessorModel newProfessor = findById(obj.getId());
-        if(Objects.nonNull(obj.getSenha())){newProfessor.setSenha(obj.getSenha());}
-        if (Objects.nonNull(obj.getEmail())){newProfessor.setEmail(obj.getEmail());}
-        if (Objects.nonNull(obj.getMateria())){newProfessor.setMateria(obj.getMateria());}
-        if (Objects.nonNull(obj.getNome())){newProfessor.setNome(obj.getNome());}
+    public ProfessorModel update(ProfessorUpdateDTO obj, Long id){
+        ProfessorModel newProfessor = findById(id);
+        if (Objects.nonNull(obj.email())){newProfessor.setEmail(obj.email());}
+        if (Objects.nonNull(obj.materia())){newProfessor.setMateria(obj.materia());}
+        if (Objects.nonNull(obj.nome())){newProfessor.setNome(obj.nome());}
+        if (Objects.nonNull(obj.turmas())){atualizaTurma(obj.turmas(), newProfessor);}
+
+        // VERIFICA SE O ARQUIVO NÃO É NULO ANTES DE ATUALIZAR
+        if (Objects.nonNull(obj.file()) && !obj.file().isEmpty()){
+            atualizaImage(obj.file(), newProfessor);
+        }
+
         return this.professorRepository.save(newProfessor);
     }
 
@@ -151,8 +153,32 @@ public class ProfessorService {
         return  professoresFiltrados;
     }
     @Transactional
+    public void atualizaImage(MultipartFile file, ProfessorModel professor){
+        try {
+            // Verifica se o professor já tem imagem
+            Image existingImage = this.image.findImageByProfessorModel(professor);
+            if (existingImage != null) {
+                this.image.delete(existingImage);
+            }
+            uploadImage(file, professor);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao atualizar imagem", e);
+        }
+    }
+
+    @Transactional
+    public void atualizaTurma(List<Turma> turmas, ProfessorModel obj){
+        turmaRepository.deleteByProfessorModel(obj);
+        for (Turma t: turmas){
+            TurmaModel novaTurma = new TurmaModel(t, obj);
+            turmaRepository.save(novaTurma);
+        }
+    }
+
+    @Transactional
     public Image uploadImage(MultipartFile file, ProfessorModel professor) throws IOException {
         Image imageData = new Image(professor.getNome(), file.getContentType(), file.getBytes(), professor);
+        this.image.save(imageData);
         return imageData;
     }
 
