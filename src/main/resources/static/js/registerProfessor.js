@@ -29,12 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', function () {
         event.preventDefault();
         
-        const userNameValid = checkInputUsername();
-        const emailValid = checkInputEmail();
-        const senhaValid = checkInputPassword();
+        const allInputValid = allCheckFunctions();
         const valoresSelecionados = getSelectedValues(turmas);
         
-        if (userNameValid && emailValid && senhaValid) {
+        if (allInputValid) {
             const RegisterData = {
                 nome: username.value,
                 email: email.value,
@@ -125,4 +123,10 @@ function errorInput(input, message) {
     textMessage.innerText = message;
 
     formItem.className = "input-box-error";
+}
+
+function allCheckFunctions() {
+    checkInputUsername();
+    checkInputEmail();
+    checkInputPassword();
 }
