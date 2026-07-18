@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const username = document.querySelector('input[type="text"]');
     const email = document.querySelector('input[type="email"]');
     const password = document.querySelector('input[type="password"]');
+    const subject = document.querySelector('input[type="text"]#subject');
     const turmas = document.querySelectorAll('input[type = "checkbox"]');
     const button = document.querySelector('button');
 
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 nome: username.value,
                 email: email.value,
                 senha: password.value,
-                materia: "BASETECNICA",
+                materia: subject.value,
                 turmas: valoresSelecionados
             }
     
@@ -129,4 +130,5 @@ function allCheckFunctions() {
     checkInputUsername();
     checkInputEmail();
     checkInputPassword();
+    checkInputSubject();
 }
